@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { orderBurgerApi } from '../utils/burger-api';
+import { RootState } from '../services/store';
 
 interface IConstructorItems {
   bun: TIngredient | null;
@@ -15,18 +16,8 @@ interface IConstructorState {
 
 export const createOrder = createAsyncThunk(
   'constructor/createOrder',
-  async (_, { getState, rejectWithValue }) => {
+  async (ingredientsIds: string[], { rejectWithValue }) => {
     try {
-      // Получаем из store текущие bun и ingredients
-      const state = getState() as any;
-      const { bun, ingredients } = state.burgerConstructor.constructorItems;
-      if (!bun) throw new Error('Булка не выбрана!');
-      // Собираем массив id ингредиентов: сначала bun (дважды), затем остальные
-      const ingredientsIds = [
-        bun._id,
-        ...ingredients.map((item: TConstructorIngredient) => item._id),
-        bun._id
-      ];
       const response = await orderBurgerApi(ingredientsIds);
       return response.order as TOrder;
     } catch (error: any) {
@@ -51,11 +42,18 @@ const constructorSlice = createSlice({
     addBun(state, action: PayloadAction<TIngredient>) {
       state.constructorItems.bun = action.payload;
     },
-    addIngredient(state, action: PayloadAction<TIngredient>) {
-      state.constructorItems.ingredients.push({
-        ...action.payload,
-        id: (Date.now() + Math.random()).toString()
-      });
+    addIngredient: {
+      reducer(state, action: PayloadAction<TConstructorIngredient>) {
+        state.constructorItems.ingredients.push(action.payload);
+      },
+      prepare(ingredient: TIngredient) {
+        return {
+          payload: {
+            ...ingredient,
+            id: (Date.now() + Math.random()).toString()
+          }
+        };
+      }
     },
     removeIngredient(state, action: PayloadAction<number>) {
       state.constructorItems.ingredients.splice(action.payload, 1);
@@ -71,7 +69,6 @@ const constructorSlice = createSlice({
       );
       state.constructorItems.ingredients.splice(toIndex, 0, movedItem);
     },
-    // Экшен, чтобы закрывать модалку (сбрасывать orderModalData)
     clearOrderModal(state) {
       state.orderModalData = null;
     }

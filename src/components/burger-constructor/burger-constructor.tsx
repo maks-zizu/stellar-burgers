@@ -30,7 +30,16 @@ export const BurgerConstructor: FC = () => {
       navigate('/login');
       return;
     }
-    dispatch(createOrder());
+    const { bun, ingredients } = constructorItems;
+    // Формируем массив id ингредиентов
+    const ingredientsIds = [
+      bun._id,
+      ...ingredients.map((item) => item._id),
+      bun._id
+    ];
+
+    // Передаем массив id в createOrder
+    dispatch(createOrder(ingredientsIds));
   };
 
   const closeOrderModal = () => dispatch(clearOrderModal());

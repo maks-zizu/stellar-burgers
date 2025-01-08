@@ -11,11 +11,11 @@ import {
 import { TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../utils/cookie';
 
-// Типизация состояния пользователя
 interface UserState {
   isAuthenticated: boolean;
   user: TUser | null;
   isLoading: boolean;
+  isAuthChecked: boolean;
   error: string | null;
 }
 
@@ -23,6 +23,7 @@ const initialState: UserState = {
   isAuthenticated: false,
   user: null,
   isLoading: false,
+  isAuthChecked: false,
   error: null
 };
 
@@ -113,8 +114,9 @@ const userSlice = createSlice({
       loginUser.fulfilled,
       (state, action: PayloadAction<TUser>) => {
         state.isLoading = false;
-        state.isAuthenticated = true; // ключевой момент
+        state.isAuthenticated = true;
         state.user = action.payload;
+        state.isAuthChecked = true; // Устанавливаем флаг после успешной авторизации
       }
     );
     builder.addCase(loginUser.rejected, (state, action) => {
@@ -140,7 +142,7 @@ const userSlice = createSlice({
       state.error = action.payload as string;
     });
 
-    // Получение данных пользователя
+    // Получение данных пользователя и проверка авторизации (fetchUser)
     builder.addCase(fetchUser.pending, (state) => {
       state.isLoading = true;
       state.error = null;
@@ -148,14 +150,15 @@ const userSlice = createSlice({
     builder.addCase(
       fetchUser.fulfilled,
       (state, action: PayloadAction<TUser>) => {
-        state.isAuthenticated = true; // ключевой момент
-        state.isLoading = false;
+        state.isAuthenticated = true;
         state.user = action.payload;
+        state.isLoading = false;
+        state.isAuthChecked = true; // Устанавливаем флаг после успешной проверки
       }
     );
-    builder.addCase(fetchUser.rejected, (state, action) => {
+    builder.addCase(fetchUser.rejected, (state) => {
       state.isLoading = false;
-      // state.error = action.payload as string;
+      state.isAuthChecked = true; // Устанавливаем флаг даже при ошибке
     });
 
     // Выход из системы
@@ -165,8 +168,9 @@ const userSlice = createSlice({
     });
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.isLoading = false;
-      state.isAuthenticated = false; // отключили авторизацию
+      state.isAuthenticated = false;
       state.user = null;
+      state.isAuthChecked = true; // Флаг остается true, т.к. проверка завершена
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
       state.isLoading = false;
