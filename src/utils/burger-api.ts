@@ -14,9 +14,8 @@ type TRefreshResponse = TServerResponse<{
   accessToken: string;
 }>;
 
-export const refreshToken = (): Promise<TRefreshResponse> => {
-  console.log('🚀🚀🚀 ~ URL:', URL);
-  return fetch(`${URL}/auth/token`, {
+export const refreshToken = (): Promise<TRefreshResponse> =>
+  fetch(`${URL}/auth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
@@ -34,7 +33,6 @@ export const refreshToken = (): Promise<TRefreshResponse> => {
       setCookie('accessToken', refreshData.accessToken);
       return refreshData;
     });
-};
 
 export const fetchWithRefresh = async <T>(
   url: RequestInfo,
@@ -46,7 +44,6 @@ export const fetchWithRefresh = async <T>(
   } catch (err) {
     if ((err as { message: string }).message === 'jwt expired') {
       const refreshData = await refreshToken();
-      console.log('🚀🚀🚀 ~ refreshData:', refreshData);
       if (options.headers) {
         (options.headers as { [key: string]: string }).authorization =
           refreshData.accessToken;
@@ -73,15 +70,13 @@ type TOrdersResponse = TServerResponse<{
   data: TOrder[];
 }>;
 
-export const getIngredientsApi = () => {
-  console.log('🚀🚀🚀 ~ URL:', URL);
-  return fetch(`${URL}/ingredients`)
+export const getIngredientsApi = () =>
+  fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
       if (data?.success) return data.data;
       return Promise.reject(data);
     });
-};
 
 export const getFeedsApi = () =>
   fetch(`${URL}/orders/all`)
