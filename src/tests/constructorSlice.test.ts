@@ -3,20 +3,12 @@ import constructorReducer, {
   addIngredient,
   removeIngredient,
   moveIngredient,
-  clearOrderModal
+  clearOrderModal,
+  initialState
 } from '../services/constructorSlice';
 import { TIngredient, TConstructorIngredient, TOrder } from '@utils-types';
 
 describe('constructorSlice reducer', () => {
-  const initialState = {
-    constructorItems: {
-      bun: null,
-      ingredients: [] as TConstructorIngredient[] // Указываем правильный тип
-    },
-    orderRequest: false,
-    orderModalData: null
-  };
-
   it('должен обработать добавление булки (addBun)', () => {
     const bun: TIngredient = {
       _id: '1',
@@ -65,6 +57,7 @@ describe('constructorSlice reducer', () => {
 
   it('должен обработать удаление ингредиента (removeIngredient)', () => {
     const initialStateWithIngredients = {
+      ...initialState,
       constructorItems: {
         bun: null,
         ingredients: [
@@ -97,9 +90,7 @@ describe('constructorSlice reducer', () => {
             image_mobile: ''
           }
         ]
-      },
-      orderRequest: false,
-      orderModalData: null
+      }
     };
 
     const action = removeIngredient(1); // Удаляем второй ингредиент
@@ -111,6 +102,7 @@ describe('constructorSlice reducer', () => {
 
   it('должен обработать изменение порядка ингредиентов (moveIngredient)', () => {
     const initialStateWithIngredients = {
+      ...initialState,
       constructorItems: {
         bun: null,
         ingredients: [
@@ -143,9 +135,7 @@ describe('constructorSlice reducer', () => {
             image_mobile: ''
           }
         ]
-      },
-      orderRequest: false,
-      orderModalData: null
+      }
     };
 
     const action = moveIngredient({ fromIndex: 0, toIndex: 1 }); // Меняем местами мясо и сыр
@@ -157,6 +147,7 @@ describe('constructorSlice reducer', () => {
 
   it('должен обработать очистку модального окна (clearOrderModal)', () => {
     const initialStateWithOrder = {
+      ...initialState,
       constructorItems: {
         bun: null,
         ingredients: []

@@ -34,12 +34,9 @@ const App = () => {
   }, [dispatch]);
 
   const { isAuthenticated, isLoading } = useSelector((state) => state.user);
-  console.log('🚀🚀 ~ App ~ isAuthenticated:', isAuthenticated);
-  console.log('🚀🚀 ~ App ~ isLoading:', isLoading);
 
   useEffect(() => {
     const token = getCookie('accessToken');
-    console.log('🚀🚀 ~ useEffect ~ token:', token);
     if (token && !isAuthenticated) {
       dispatch(fetchUser())
         .unwrap()

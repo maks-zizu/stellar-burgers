@@ -1,22 +1,14 @@
-import userSlice from '../services/userSlice';
-import {
+import userSlice, {
   loginUser,
   registerUser,
   fetchUser,
-  logoutUser
+  logoutUser,
+  initialState
 } from '../services/userSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 
 describe('userSlice', () => {
-  const initialState = {
-    isAuthenticated: false,
-    user: null,
-    isLoading: false,
-    isAuthChecked: false,
-    error: null
-  };
-
   it('должен вернуть начальное состояние', () => {
     expect(userSlice(undefined, {} as PayloadAction)).toEqual(initialState);
   });

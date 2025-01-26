@@ -1,16 +1,10 @@
 import ingredientsSlice, {
-  fetchIngredients
+  fetchIngredients,
+  initialState
 } from '../services/ingredientsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IngredientsState } from '../services/ingredientsSlice'; // импорт интерфейса состояния
 
 describe('ingredientsSlice', () => {
-  const initialState: IngredientsState = {
-    ingredients: [],
-    isLoading: false,
-    error: null
-  };
-
   it('должен вернуть начальное состояние', () => {
     // Важно: для слайса передаем правильное состояние
     expect(ingredientsSlice(initialState, {} as PayloadAction)).toEqual(

@@ -1,14 +1,10 @@
-import ordersSlice from '../services/ordersSlice';
-import { fetchOrders } from '../services/ordersSlice';
+import ordersSlice, {
+  fetchOrders,
+  initialState
+} from '../services/ordersSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 describe('ordersSlice', () => {
-  const initialState = {
-    orders: [],
-    isLoading: false,
-    error: null
-  };
-
   it('должен вернуть начальное состояние', () => {
     expect(ordersSlice(undefined, {} as PayloadAction)).toEqual(initialState);
   });

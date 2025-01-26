@@ -1,19 +1,7 @@
-import feedsSlice, { fetchFeeds } from '../services/feedsSlice';
+import feedsSlice, { fetchFeeds, initialState } from '../services/feedsSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { FeedsState } from '../services/feedsSlice'; // Импортируем интерфейс для правильной типизации
 
 describe('feedsSlice', () => {
-  const initialState: FeedsState = {
-    feeds: {
-      orders: [],
-      total: 0,
-      totalToday: 0,
-      success: false
-    },
-    isLoading: false,
-    error: null
-  };
-
   it('должен вернуть начальное состояние', () => {
     expect(feedsSlice(undefined, {} as PayloadAction)).toEqual(initialState);
   });

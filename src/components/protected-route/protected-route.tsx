@@ -17,7 +17,6 @@ export const ProtectedRoute: FC<TProtectedRouteProps> = ({
   const { isAuthenticated, isAuthChecked } = useSelector(
     (state: RootState) => state.user
   );
-  console.log('🚀 ~ isAuthChecked:', isAuthChecked);
 
   // // Если проверка авторизации еще не завершена, показываем индикатор загрузки
   // if (!isAuthChecked) {
