@@ -24,9 +24,13 @@
   color: var(--text-primary-color);
 }
 
+.link:hover {
+  cursor: pointer;
+}
+
 .link_position_last {
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   flex-basis: 35%;
 }
 

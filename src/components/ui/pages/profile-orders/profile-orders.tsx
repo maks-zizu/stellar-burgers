@@ -1,9 +1,8 @@
 import { FC } from 'react';
-
 import styles from './profile-orders.module.css';
-
 import { ProfileOrdersUIProps } from './type';
 import { ProfileMenu, OrdersList } from '@components';
+import { Preloader } from '../../preloader';
 
 export const ProfileOrdersUI: FC<ProfileOrdersUIProps> = ({ orders }) => (
   <main className={`${styles.main}`}>
@@ -11,7 +10,7 @@ export const ProfileOrdersUI: FC<ProfileOrdersUIProps> = ({ orders }) => (
       <ProfileMenu />
     </div>
     <div className={`mt-10 ${styles.orders}`}>
-      <OrdersList orders={orders} />
+      {orders.length === 0 ? <Preloader /> : <OrdersList orders={orders} />}
     </div>
   </main>
 );

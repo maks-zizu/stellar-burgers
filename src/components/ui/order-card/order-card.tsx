@@ -4,16 +4,14 @@ import {
   CurrencyIcon,
   FormattedDate
 } from '@zlden/react-developer-burger-ui-components';
-
 import styles from './order-card.module.css';
-
 import { OrderCardUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderCardUI: FC<OrderCardUIProps> = memo(
   ({ orderInfo, maxIngredients, locationState }) => (
     <Link
-      to={orderInfo.number.toString()}
+      to={orderInfo._id.toString()}
       relative='path'
       state={locationState}
       className={`p-6 mb-4 mr-2 ${styles.order}`}
