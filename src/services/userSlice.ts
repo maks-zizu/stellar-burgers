@@ -156,9 +156,10 @@ const userSlice = createSlice({
         state.isAuthChecked = true; // Устанавливаем флаг после успешной проверки
       }
     );
-    builder.addCase(fetchUser.rejected, (state) => {
+    builder.addCase(fetchUser.rejected, (state, action) => {
       state.isLoading = false;
-      state.isAuthChecked = true; // Устанавливаем флаг даже при ошибке
+      state.isAuthChecked = true;
+      state.error = action.payload as string;
     });
 
     // Выход из системы
@@ -191,6 +192,7 @@ const userSlice = createSlice({
     );
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false;
+      state.isAuthChecked = true;
       state.error = action.payload as string;
     });
   }
