@@ -2,20 +2,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '../utils/burger-api';
 import { TOrder } from '@utils-types';
 
-interface TFeeds {
+export interface TFeeds {
   orders: TOrder[];
   total: number;
   totalToday: number;
   success: boolean;
 }
 
-interface FeedsState {
+export interface FeedsState {
   feeds: TFeeds;
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: FeedsState = {
+export const initialState: FeedsState = {
   feeds: {
     orders: [],
     total: 0,

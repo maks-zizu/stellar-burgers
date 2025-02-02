@@ -26,7 +26,7 @@ export const createOrder = createAsyncThunk(
   }
 );
 
-const initialState: IConstructorState = {
+export const initialState: IConstructorState = {
   constructorItems: {
     bun: null,
     ingredients: []

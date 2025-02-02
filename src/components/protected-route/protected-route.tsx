@@ -18,10 +18,10 @@ export const ProtectedRoute: FC<TProtectedRouteProps> = ({
     (state: RootState) => state.user
   );
 
-  // Если проверка авторизации еще не завершена, показываем индикатор загрузки
-  if (!isAuthChecked) {
-    return <Preloader />;
-  }
+  // // Если проверка авторизации еще не завершена, показываем индикатор загрузки
+  // if (!isAuthChecked) {
+  //   return <Preloader />;
+  // }
 
   // Если пользователь авторизован и маршрут анонимный, редиректим на предыдущую страницу или "/"
   if (isAuthenticated && anonymous) {
